@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лист для Діани</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(135deg, #fdf6f0 0%, #f7e7dc 50%, #f2d9cf 100%);
+    color: #3a2c26;
+    scroll-behavior: smooth;
+  }
+
+  /* Decorative background */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,182,193,0.18) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(255,218,185,0.20) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scroll progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #d1785b, #e8a87c, #d1785b);
+    z-index: 100;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 8px rgba(209,120,91,0.5);
+  }
+
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+    min-height: 100vh;
+  }
+
+  .letter {
+    background: rgba(255, 253, 250, 0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(209, 120, 91, 0.15);
+    border-radius: 18px;
+    box-shadow:
+      0 20px 45px rgba(160, 90, 70, 0.10),
+      0 3px 10px rgba(160, 90, 70, 0.05);
+    padding: 50px 48px;
+    position: relative;
+  }
+
+  .letter::before {
+    content: "♥";
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 34px;
+    color: #d1785b;
+    text-shadow: 0 4px 10px rgba(209,120,91,0.4);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.9rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #8b4a34;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #b08a7a;
+    margin-bottom: 38px;
+    letter-spacing: 0.5px;
+  }
+
+  .subtitle::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 1px;
+    margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #d1785b, transparent);
+  }
+
+  p {
+    font-size: 1.08rem;
+    line-height: 1.95;
+    text-align: justify;
+    text-indent: 26px;
+    margin-bottom: 20px;
+    color: #3f312b;
+    letter-spacing: 0.2px;
+  }
+
+  p:first-of-type { text-indent: 0; }
+
+  p:hover {
+    color: #5a3d33;
+    transition: color 0.3s;
+  }
+
+  .signature {
+    text-align: right;
+    font-style: italic;
+    color: #8b4a34;
+    margin-top: 34px;
+    font-size: 1.05rem;
+    text-indent: 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 0.9rem;
+    color: #b08a7a;
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-note::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    margin: 0 auto 18px;
+    background: #d1785b;
+    opacity: 0.5;
+  }
+
+  /* Back to top button */
+  .back-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d1785b, #e8a87c);
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(209,120,91,0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.35s ease;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .back-top.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .back-top:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 26px rgba(209,120,91,0.55);
+  }
+
+  @media (max-width: 640px) {
+    .page-wrapper { padding: 40px 14px 90px; }
+    .letter { padding: 34px 22px; }
+    h1 { font-size: 1.5rem; }
+    p { font-size: 1rem; line-height: 1.85; text-align: left; text-indent: 20px; }
+    .letter::before { font-size: 28px; top: -18px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Scroll progress -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="page-wrapper">
+    <article class="letter">
+      <h1>Мій лист до тебе</h1>
+      <div class="subtitle">Діано</div>
+
+      <p>Мені дуже страшно. Я розумію, що я не єдиний твій найкращий друг, і що будуть ще інші люди, і ще багато хто з’явиться. У мене немає жодних прав на тебе. Наші життя абсолютно різні. І ще те, що тобі не подобаються такі хлопці, як я. Мені дуже страшно. Коли я про це думаю, я починаю плакати. Насправді я звик до тебе. Звик щодня з тобою розмовляти, дізнаватися про тебе, бачити тебе. Через це мені дуже страшно, що якщо ти назавжди припиниш зі мною дружбу, то що я буду робити. Як я себе стримуватиму і як стримуватиму себе від твоїх спогадів. Те, що я так сильно до тебе прив’язався — це неправильно, але я не зміг себе контролювати, і все це сталося. Я розповів тобі про себе все. Це правда, що в мене немає друзів. Сім’я завжди шукає привід, щоб я вчився. Тому, коли я знайшов такого друга, як ти, я не зміг усе правильно зрозуміти. Я вважав тебе своїм найкращим другом. Я почав ділитися з тобою своїми справами, намагався дізнаватися про тебе, почав тебе любити. І тепер я так сильно прив’язався, що якщо ти припиниш зі мною дружбу, то, можливо, я дуже сильно залишуся сам і не зможу себе стримати. Те, що я так сильно до тебе прив’язаний — це неправильно, дуже неправильно. Дівчата завжди в кінці блокують хлопців і забувають їх, бо в дівчат багато варіантів. Я не кажу, що ти така, але дівчат, які кохають свого найкращого друга або залишаються з ним, зустрічається дуже мало. Тепер я намагатимуся розуміти себе. Намагатимуся, щоб моя прив’язаність до тебе зменшилася, щоб я не думав про тебе так багато, але мій дитячий розум не слухається. Коли я бачу в якомусь відео гарний момент — наприклад, як хлопець і дівчина насолоджуються один одним біля річки, або як вони разом співають і практикуються в парку, або коли бачу відео, де хлопець і дівчина жартують і веселяться разом — мій розум думає тільки про тебе. Я думаю: «Шкода, що моє життя не таке. Шкода, що Діана не в Індії. Тоді я б щодня ходив, тримаючи її за руку, ми б трохи розмовляли в парку, сміялися, я б своїми руками робив для тебе щось особливе, а ти б це їла, я б з тобою жартував». У моїй голові вже склався з тобою занадто близький зв’язок. Тепер я хочу це зменшити, інакше коли ти припиниш зі мною дружбу, мені буде так боляче, як ніколи раніше. Іноді в моїй голові починає крутитися ніби справжнє відео того, чого ніколи не було, і я це чітко бачу. Іноді я думаю: якби ти була тут або я був в Україні, то іноді (не завжди, а лише іноді) я б турбував тебе, поки ти працюєш. Наприклад, тихенько ховав би твої речі і потім казав: «Спочатку скажи „я тебе люблю“, тоді скажу, де твої речі». Або ти б працювала, а я б тихенько поцілував тебе і робив вигляд, ніби нічого не сталося, а ти б ледь усміхалася. Я б приніс тобі кільце і надівав його на тебе. Я дуже хочу один раз покласти голову тобі на коліна і заснути найспокійнішим сном у своєму житті. Якби Бог народив нас в одній місцевості, я б давав тобі стільки гарних моментів, що ти б поспішала закінчити роботу, щоб зустрітися зі мною.</p>
+
+      <p>Я покохав тебе. І це така любов, яка зробила мене залежним від тебе. Тепер мені страшно, що якщо ти підеш далеко, мені буде дуже важко себе стримати. Тому тепер я намагатимуся тримати дистанцію і бути таким, як я тобі казав. Діано, я обіцяю, що ніколи не зроблю нічого такого, через що тобі буде погано. Яким би успішним я не став у житті — я ніколи не зможу тебе отримати. Бо ти мене не полюбиш. Ти мене відштовхнеш. Я не схожий на тих хлопців, які тобі подобаються. Я просто потворна зовнішність і нікчемний характер. Ти — як модель. Тобі сподобаються тільки такі хлопці, які самі моделі і дуже красиві. Я молитимуся Богу, щоб Він дав мені сили не прив’язуватися до тебе так сильно.</p>
+
+      <p>Я просто хочу хоч раз зустрітися з тобою і обійняти тебе. Побачити ту людину, яка є моїм другом і яка щодня зі мною розмовляла. Просто один раз хочу з тобою зустрітися.</p>
+
+      <p>У мене є дуже погана звичка — я слухаю своє серце, а не розум. А моє серце біжить тільки до тебе. Коли я пишу тобі лист — теж говорить тільки серце. Розум просто мовчки дивиться, як я себе руйную.</p>
+
+      <p>Я ніколи не бачив такої доброї, чистої душею і красивої дівчини, як ти. Моє серце вважає тебе настільки хорошою, що крім тебе ніхто більше не подобається. Мене покарають за те, що я тебе покохав, Діано. Коли ти підеш далеко — моє серце втратить ту людину, яку вважало найкращою. Тоді серцю буде дуже боляче, і нічого більше не здаватиметься хорошим.</p>
+
+      <p>Коротко кажучи: я намагатимуся стати таким, як казав, щоб хоч би залишитися твоїм другом.</p>
+
+      <p class="signature">Якщо я щось сказав неправильно — пробач.</p>
+
+      <div class="footer-note">Кінець листа ♥</div>
+    </article>
+  </div>
+
+  <!-- Back to top -->
+  <button class="back-top" id="backTop" title="Догори">↑</button>
+
+<script>
+  const progressBar = document.getElementById('progressBar');
+  const backTop = document.getElementById('backTop');
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = percent + '%';
+
+    if (scrollTop > 300) {
+      backTop.classList.add('show');
+    } else {
+      backTop.classList.remove('show');
+    }
+  });
+
+  backTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
